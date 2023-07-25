@@ -1,0 +1,21 @@
+version: "3.0"
+
+services:
+  playlist_api:
+    image: playlist-api-image
+    build:
+      context: ./playlist-api
+    environment:
+      - MONGO_USERNAME={}
+      - MONGO_PASSWORD={}
+    ports:
+      - 5000:5000
+  video_api:
+    image: video-api-image
+    build: 
+      context: ./videos-api
+    ports:
+      - 5001:5001
+    environment:
+      - MONGO_USERNAME={}
+      - MONGO_PASSWORD={}
