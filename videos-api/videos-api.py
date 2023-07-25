@@ -71,7 +71,7 @@ def get_video(video):
             "statusCode": 400
         }
     
-    db = db_conn['videos-db']
+    db = db_connection['videos-db']
     videos_db = db['videos-collection']
 
     try:
