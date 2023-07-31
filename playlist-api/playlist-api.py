@@ -7,8 +7,10 @@ import uuid
 import requests
 from pprint import pprint
 import os
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, resources={r"*": {"origins": "*"}})
 
 URI = f"mongodb+srv://{os.getenv('MONGO_USERNAME')}:{os.getenv('MONGO_PASSWORD')}@k8s-cluster-db.qjpa5yf.mongodb.net/?retryWrites=true&w=majority"
 
