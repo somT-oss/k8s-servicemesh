@@ -35,7 +35,7 @@ jobs:
       - name: Push Docker  db-setup-image:latest to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/db-setup-image:latest
 
-        - name: Push Docker playlist-api-image:latest to Docker Hub
+      - name: Push Docker playlist-api-image:latest to Docker Hub
         run: docker push ${{ secrets.DOCKER_USERNAME }}/playlist-api-image:latest
 
       - name: Push Docker videos-api-image:latest to Docker Hub
