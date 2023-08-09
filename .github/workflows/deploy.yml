@@ -20,6 +20,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
   
+      - name: Build Docker db-setup-image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/db-setup-image:latest db_setup/
+
       - name: Build Docker playlist-api-image
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/playlist-api-image:latest playlist-api/
       

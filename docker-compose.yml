@@ -2,20 +2,26 @@ version: "3.0"
 
 services:
   playlist_api:
-    image: playlist-api-image
-    build:
-      context: ./playlist-api
+    image: callspadeoz123/playlist-api-image:latest
     environment:
-      - MONGO_USERNAME={}
-      - MONGO_PASSWORD={}
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
     ports:
       - 5000:5000
+    depends_on:
+     - redis
+
   video_api:
-    image: video-api-image
-    build: 
-      context: ./videos-api
+    image: callspadeoz123/video-api-image:latest
     ports:
       - 5001:5001
     environment:
-      - MONGO_USERNAME={}
-      - MONGO_PASSWORD={}
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    
+  redis_db: 
+    image: redis
+    ports: 
+      - 6379:6379
