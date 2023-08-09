@@ -10,7 +10,7 @@ body {
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1)
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
@@ -42,14 +42,14 @@ button:hover {
   gap: 20px;
 }
 
-.playlist {
+.playlist-grid {
   padding: 15px;
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f9f9f9;
 }
 
-.playlist h3 {
+.playlist h2 {
   margin: 0;
   font-size: 20px;
   font-weight: bold;
@@ -61,7 +61,59 @@ button:hover {
   color: #555;
 }
 
-.playlist .videos {
+.playlist button {
+  margin-top: 10px;
   font-style: italic;
   color: #777;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.playlist button:hover {
+  text-decoration: underline;
+}
+
+.video-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.video-grid {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.video h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+}
+
+.video p {
+  margin: 8px 0;
+  color: #555;
+}
+
+.video video {
+  width: 100%;
+  max-height: 400px;
+  margin-top: 10px;
+}
+
+.video button {
+  margin-top: 10px;
+  font-style: italic;
+  color: #777;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.video button:hover {
+  text-decoration: underline;
 }
