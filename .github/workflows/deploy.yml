@@ -21,10 +21,10 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build Docker video-api-image
-      run: docker build --file ./videos-api/Dockerfile --tag video-api-image:$(date +%s)
+      run: docker build -t video-api-image:$(date +%s) videos-api/ 
 
     - name: Build Docker playlist-api-image
-      run: docker build --file ./playlist-api/Dockerfile --tag playlist-api-image:$(date +%s)
+      run: docker build -t playlist-api-image:$(date +%s) playlist-api/ 
 
     - name: Log in to Docker Hub
       run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
