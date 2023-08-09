@@ -1,19 +1,109 @@
-import requests as r
-import json
+from redis import Redis
+import uuid
+from datetime import datetime
+import time
+import os
 from pprint import pprint
-import ast
 
-def get_video(video):
-    response = r.get(f"http://localhost:5001/get-video/{video}")
-    return response.json()
+def connect(host, port): 
+    redis_db = Redis(host=host, port=port, decode_responses=True)
 
-response = r.get("http://127.0.0.1:5000/get-playlists")
+    return redis_db
 
-grouped_videos = []
 
-for playlist in response.json():
-    for video in ast.literal_eval(playlist["videos"]):
-        video_output = get_video(video)
-        grouped_videos.append(video_output)
+def add_playlists(): 
+    redis_db = connect(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))
 
-        pprint(grouped_videos)
+    if redis_db is None:
+        print("Error occurred trying to connect to DB")
+
+    redis_db.hset(
+        "playlist:1", mapping={
+            'title': "Tech Videos",
+            'description': "This is a tech video playlist",
+            "playlist_id": str(uuid.uuid4()),
+            "videos": "['video 1']",
+            "date_created ": str(datetime.now())
+        }
+    )
+
+    print("Finished adding playlist 1...")
+    time.sleep(2)
+
+    redis_db.hset(
+        "playlist:2", mapping={
+            'title': "Crypto Videos",
+            'description': "This is a crypto video playlist",
+            "playlist_id": str(uuid.uuid4()),
+            "videos": "['video 11']",
+            "date_created ": str(datetime.now())
+        }
+    )
+
+    print("Finished adding playlist 2...")
+    time.sleep(2)
+
+    redis_db.hset(
+        "playlist:3", mapping={
+            'title': "Workout Videos",
+            'description': "This is a workout video playlist",
+            "playlist_id": str(uuid.uuid4()),
+            "videos": "['video 21']",
+            "date_created ": str(datetime.now())
+        }
+    )
+
+    print("Finished adding playlist 3...")
+    print("Done with adding all playlists")
+
+
+def add_videos():
+    redis_db = connect(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))
+
+    if redis_db is None:
+        return "Error occurred trying to connect to DB"
+
+    redis_db.hset(
+        "video-1", mapping={
+            'title': "New iPhone",
+            'description': "New iPhone out now",
+            "video_id": str(uuid.uuid4()),
+            "date_created ": str(datetime.now())
+        }
+    )
+
+    print("Finished adding video 1...")
+    time.sleep(2)
+
+    redis_db.hset(
+        "video-11", mapping={
+            'title': "FOMO BTC",
+            'description': "Trade BTC now",
+            "video_id": str(uuid.uuid4()),
+            "date_created ": str(datetime.now())
+        }
+    )
+
+    print("Finished adding video 2...")
+    time.sleep(2)
+
+    redis_db.hset(
+        "video-21", mapping={
+            'title': "Workout ABS",
+            'description': "Start taining your abs now",
+            "video_id": str(uuid.uuid4()),
+            "date_created ": str(datetime.now())
+        }
+    )
+
+    print("Finished adding video 3...")
+    print("Done with adding all videos")
+
+
+def main():
+
+    add_playlists()
+    add_videos()
+
+if __name__ == "__main__":
+    main()

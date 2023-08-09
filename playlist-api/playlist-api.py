@@ -1,119 +1,51 @@
 from flask import Flask, request
-from pymongo.mongo_client import MongoClient
-from pymongo.server_api import ServerApi
-from datetime import datetime
-import ast
-import uuid
-import requests
-from pprint import pprint
+from redis import Redis
 import os
+from flask_cors import CORS
 
+# Flask app
 app = Flask(__name__)
 
-URI = f"mongodb+srv://{os.getenv('MONGO_USERNAME')}:{os.getenv('MONGO_PASSWORD')}@k8s-cluster-db.qjpa5yf.mongodb.net/?retryWrites=true&w=majority"
+# CORS configuration
+CORS(app, resources={r"*": {"origins": "*"}})
 
+# Redis DB connection function
+def connect(host, port): 
+    redis_db = Redis(host=host, port=port, decode_responses=True)
 
-def connect(URI: str): 
-    # Set the Stable API version when creating a new client
-    client = MongoClient(URI, server_api=ServerApi('1'))
-                            
-    # Send a ping to confirm a successful connection
-    try:
-        client.admin.command('ping')
-        return client
-    except Exception as e:
-        print(e)
-        return None
+    return redis_db
 
-def get_video(video):
-    response = requests.get(f"http://localhost:5001/get-video/{video}")
-    return response.json()
-
-
-@app.route('/create-playlist', methods=['POST'])
-def create_new_playlist():
-    playlist_id = str(uuid.uuid4())
-    videos = request.json['video_id(s)']
-    title = request.json['title']
-    description = request.json['description']
-    date_created = datetime.now()
-
-    playlist_dict = {
-        "_id": playlist_id,
-        "title": title,
-        "description": description,
-        "videos": videos,
-        "date_created": date_created
-    }
-
-    db_connection = connect(URI)
-    if db_connection is None:
-        return {
-            "message": "Could not connect to DB!",
-            "statusCode": 400
-        }
-    
-    db = db_connection['playlist-db']
-    playlist_db = db['playlist-collection']
-    try:
-        playlist_db.insert_one(playlist_dict)
-        return {
-            "message": "Playlist successfully created",
-            "statusCode": 200
-        }
-    except Exception as e:
-        return {
-            "message": e,
-            "statusCode": 400
-        }
-
-
+# GET route for all playlists
 @app.route('/get-playlists', methods=['GET'])
 def get_all_playlists():
 
-    db_connection = connect(URI)
-    if db_connection is None:
+    # Redis DB connection object
+    redis_db = connect(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))
+
+    # Error handling for connection failure to Redis
+    if redis_db is None: 
         return {
             "message": "Could not connect to DB!",
             "statusCode": 400
         }
     
-    db = db_connection['playlist-db']
-    playlist_db = db['playlist-collection']
-    all_playlists = []
 
-    for playlists in playlist_db.find():
-        all_playlists.append(playlists)
-
-    return all_playlists    
-
-@app.route('/get-playlists-n-videos', methods=['GET'])
-def get_all_playlists_and_video_metadata():
-    db_connection = connect(URI)
-    if db_connection is None:
-        return {
-            "message": "Could not connect to DB!",
-            "statusCode": 400
-        }
+    if redis_db is None:
+        return "Error occurred trying to connect to DB"
     
-    db = db_connection['playlist-db']
-    playlist_db = db['playlist-collection']
+    # All playlist hashes in the redis key value store
+    hash_keys = ['playlist:1', 'playlist:2', 'playlist:3']
+    playlists = []
 
-    all_playlist = []
-    grouped_videos = []
-
-    for playlists in playlist_db.find():
-        for video in ast.literal_eval(playlists["videos"]):
-            video_output = get_video(video)
-            grouped_videos.append(video_output)
-    #     all_playlist.append(playlists)
+    for key in hash_keys:
+        data = redis_db.hgetall(key)
+        playlists.append(data)
     
-    pprint(grouped_videos)
-
+    # Return all playlists in the DB
     return {
-        "message": "Done"
+        "playlists": playlists,
+        "statusCode": 200
     }
-
 
 
 if __name__ == '__main__':
