@@ -3,7 +3,7 @@ const videosContainer = document.getElementById('videos');
 
 async function fetchPlaylists() {
   try {
-    const response = await fetch(PLAYLIST_API_ENDPOINT);
+    const response = await fetch("http://127.0.0.1:5000/get-playlists");
     const playlists = await response.json();
     renderPlaylists(playlists);
   } catch (error) {

@@ -33,11 +33,7 @@ def get_video(video):
     video = redis_db.hgetall(video)
     
     # Return video from the DB
-    return {
-        "video": video, 
-        "statusCode": 200
-    }
-
+    return video
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5001, debug=True)

@@ -42,10 +42,7 @@ def get_all_playlists():
         playlists.append(data)
     
     # Return all playlists in the DB
-    return {
-        "playlists": playlists,
-        "statusCode": 200
-    }
+    return playlists
 
 
 if __name__ == '__main__':
