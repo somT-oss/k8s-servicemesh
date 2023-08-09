@@ -21,10 +21,10 @@ jobs:
         uses: actions/checkout@v2
   
       - name: Build Docker playlist-api-image
-        run: docker build -t playlist-api-image:latest playlist-api/
+        run: docker build -t callspadeoz123/playlist-api-image:latest playlist-api/
       
       - name: Build Docker video-api-image
-        run: docker build -t video-api-image:latest videos-api/
+        run: docker build -t callspadeoz123/video-api-image:latest videos-api/
   
       - name: Log in to Docker Hub
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
