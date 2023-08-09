@@ -27,7 +27,7 @@ jobs:
       run: docker build -t playlist-api-image:$(date +%s) playlist-api/ 
 
     - name: Log in to Docker Hub
-      run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME
 
     - name: Push Docker video-api-image to Docker Hub
       run: docker push video-api-image:$(date +%s)
