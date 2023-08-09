@@ -6,6 +6,13 @@ on:
       - main
 
 jobs:
+  pre-build: 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Echo tree
+        run: tree
+  
   build:
     runs-on: ubuntu-latest
 
@@ -14,10 +21,10 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Build Docker video-api-image
-      run: docker build -t video-api-image /videos-api/Dockerfile
+      run: docker build -t video-api-image:$(date +%s) --file ./videos-api/Dockerfile
 
     - name: Build Docker playlist-api-image
-      run: docker build -t playlist-api-image /playlist-api/Dockerfile
+      run: docker build -t playlist-api-image:$(date +%s) --file ./playlist-api/Dockerfile
 
     - name: Log in to Docker Hub
       run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
