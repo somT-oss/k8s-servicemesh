@@ -21,17 +21,17 @@ jobs:
         uses: actions/checkout@v2
   
       - name: Build Docker playlist-api-image
-        run: docker build -t playlist-api-image:latest playlist-api/
+        run: docker build -t ${{ secrets.DOCKER_PASSWORD }}/playlist-api-image:latest playlist-api/
       
       - name: Build Docker video-api-image
-        run: docker build -t video-api-image:latest videos-api/
+        run: docker build -t ${{ secrets.DOCKER_PASSWORD }}/video-api-image:latest videos-api/
   
       - name: Log in to Docker Hub
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
   
       - name: Push Docker playlist-api-image:latest to Docker Hub
-        run: docker push playlist-api-image:latest
+        run: docker push ${{ secrets.DOCKER_PASSWORD }}/playlist-api-image:latest
 
       - name: Push Docker videos-api-image:latest to Docker Hub
-        run: docker push videos-api-image:latest
+        run: docker push ${{ secrets.DOCKER_PASSWORD }}/videos-api-image:latest
       
