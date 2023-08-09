@@ -1,0 +1,30 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build Docker video-api-image
+      run: docker build -t video-api-image /videos-api/Dockerfile
+
+    - name: Build Docker playlist-api-image
+      run: docker build -t playlist-api-image /playlist-api/Dockerfile
+
+    - name: Log in to Docker Hub
+      run: echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+    - name: Push Docker video-api-image to Docker Hub
+      run: docker push video-api-image
+    
+    - name: Push Docker playlist-api-image to Docker Hub
+      run: docker push playlist-api-imag
