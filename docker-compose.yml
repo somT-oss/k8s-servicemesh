@@ -1,25 +1,33 @@
 version: "3.0"
 
 services:
+  db_setup: 
+    image: callspadeoz123/db-setup-image:latest
+    environment:
+      - REDIS_HOST=redis_db
+      - REDIS_PORT=6379
+    depends_on:
+      - redis_db 
+  
   playlist_api:
     image: callspadeoz123/playlist-api-image:latest
     environment:
-      - REDIS_HOST=localhost
+      - REDIS_HOST=redis_db
       - REDIS_PORT=6379
     ports:
       - 5000:5000
     depends_on:
-     - redis
+     - redis_db 
 
   video_api:
     image: callspadeoz123/video-api-image:latest
     ports:
       - 5001:5001
     environment:
-      - REDIS_HOST=localhost
+      - REDIS_HOST=redis_db
       - REDIS_PORT=6379
     depends_on:
-      - redis
+      - redis_db
     
   redis_db: 
     image: redis

@@ -22,16 +22,15 @@ def get_all_playlists():
     # Redis DB connection object
     redis_db = connect(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))
 
+    # Log redis object
+    print("Redis object is: ", redis_db)
+
     # Error handling for connection failure to Redis
     if redis_db is None: 
         return {
             "message": "Could not connect to DB!",
             "statusCode": 400
         }
-    
-
-    if redis_db is None:
-        return "Error occurred trying to connect to DB"
     
     # All playlist hashes in the redis key value store
     hash_keys = ['playlist:1', 'playlist:2', 'playlist:3']

@@ -22,6 +22,9 @@ def get_video(video):
     # Redis DB connection object
     redis_db = connect(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))
 
+    # Log redis object
+    print("Redis object is: ", redis_db)
+
     # Error handling for connection failure to Redis
     if redis_db is None: 
         return {
