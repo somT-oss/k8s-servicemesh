@@ -32,7 +32,7 @@ jobs:
         context: .
         file: playlist-api/ 
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/playlist-api-image:$(date +%s)
+        tags: ${{ secrets.DOCKER_USERNAME }}/playlist-api-image:latest
 
     - name: Build docker video-api-image
       uses: docker/build-push-action@v4
@@ -40,4 +40,4 @@ jobs:
         context: .
         file: videos-api/ 
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/video-api-image:$(date +%s)
+        tags: ${{ secrets.DOCKER_USERNAME }}/video-api-image:latest
