@@ -14,20 +14,28 @@ spec:
       containers:
       - name: playlist-api
         image: callspadeoz123/playlist-api-image:latest
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
         ports:
         - containerPort: 5000
         env: 
         - name: MONGO_USERNAME
           valueFrom: 
             secretKeyRef:
-              name: MONGO_USERNAME
+              name: playlist-api-secret
               key: MONGO_USERNAME
         - name: MONGO_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: MONGO_PASSWORD
+              name: playlist-api-secret
               key: MONGO_PASSWORD
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: playlist-api-service
+spec:
+  selector:
+    app: playlist-api
+  ports:
+  - port: 5000
+    targetPort: 5000
