@@ -1,5 +1,6 @@
 {
     "yaml.schemas": {
-        "https://json.schemastore.org/github-action.json": "file:///home/somto/Dev/flask-microservices/.github/deploy.yml"
+        "https://json.schemastore.org/github-action.json": "file:///home/somto/Dev/flask-microservices/.github/deploy.yml",
+        "https://gitlab.com/appsemble/appsemble/-/raw/HEAD/packages/cli/assets/appsemblerc.schema.json": "file:///home/somto/Dev/flask-microservices/playlist-api/manifests/deploy.yml"
     }
 }

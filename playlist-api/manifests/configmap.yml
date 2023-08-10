@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: playlist-api-configmap
+data:
+  REDIS_PORT: "6379"
+  REDIS_HOST: redis-service

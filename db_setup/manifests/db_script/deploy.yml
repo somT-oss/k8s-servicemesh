@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-script-deployment
+spec:
+  selector:
+    matchLabels:
+      app: db-script
+  template:
+    metadata:
+      labels:
+        app: db-script
+    spec:
+      containers:
+      - name: db-script
+        image: callspadeoz123/db-setup-image:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        envFrom:
+            - configMapRef:
+                name: db-script-configmap
+        
+
+

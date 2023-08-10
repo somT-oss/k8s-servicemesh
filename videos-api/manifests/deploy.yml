@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: playlist-api-deployment
+  name: videos-api-deployment
 spec:
   selector:
     matchLabels:
-      app: playlist-api
+      app: videos-api
   template:
     metadata:
       labels:
-        app: playlist-api
+        app: videos-api
     spec:
       containers:
-      - name: playlist-api
-        image: callspadeoz123/playlist-api-image:v3
+      - name: vidoes-api-deployment
+        image: callspadeoz123/videos-api-image:v3
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: 5000
+        - containerPort: 5001
         envFrom:
             - configMapRef:
-                name: playlist-api-configmap
+                name: videos-api-configmap
             
 
          
@@ -32,10 +32,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: playlist-api-service
+  name: videos-api-service
 spec:
   selector:
-    app: playlist-api
+    app: videos-api
   ports:
-  - port: 5000
-    targetPort: 5000
+  - port: 5001
+    targetPort: 5001
