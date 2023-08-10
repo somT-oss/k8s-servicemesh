@@ -24,10 +24,10 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/db-setup-image:latest db_setup/
 
       - name: Build Docker playlist-api-image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/playlist-api-image:v2 playlist-api/
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/playlist-api-image:v3 playlist-api/
       
       - name: Build Docker video-api-image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/videos-api-image:v2 videos-api/
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/videos-api-image:v3 videos-api/
   
       - name: Log in to Docker Hub
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
@@ -36,8 +36,8 @@ jobs:
         run: docker push ${{ secrets.DOCKER_USERNAME }}/db-setup-image:latest
 
       - name: Push Docker playlist-api-image:latest to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/playlist-api-image:v2
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/playlist-api-image:v3
 
       - name: Push Docker videos-api-image:latest to Docker Hub
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/videos-api-image:v2
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/videos-api-image:v3
       

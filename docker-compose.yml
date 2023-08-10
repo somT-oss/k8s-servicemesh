@@ -10,7 +10,7 @@ services:
       - redis_db 
   
   playlist_api:
-    image: callspadeoz123/playlist-api-image:latest
+    image: callspadeoz123/playlist-api-image:v2
     environment:
       - REDIS_HOST=redis_db
       - REDIS_PORT=6379
@@ -20,7 +20,7 @@ services:
      - redis_db 
 
   video_api:
-    image: callspadeoz123/video-api-image:latest
+    image: callspadeoz123/videos-api-image:v2
     ports:
       - 5001:5001
     environment:
